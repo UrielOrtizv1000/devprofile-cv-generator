@@ -1,8 +1,13 @@
+import PersonalDetailsForm from '../components/forms/PersonalDetailsForm';
+
 function Editor() {
   return (
-    <section className="editor">
-      <h2>Editor</h2>
-      <p>CV editor coming soon.</p>
+    <section className="editor" style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
+      <h2>CV Editor</h2>
+      <p>Fill in your details below to update your CV.</p>
+      
+      <PersonalDetailsForm />
+      
     </section>
   )
 }
