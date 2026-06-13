@@ -1,5 +1,6 @@
 import PersonalDetailsForm from '../components/forms/PersonalDetailsForm';
 import SkillsForm from '../components/forms/SkillsForm';
+import ProjectsForm from '../components/forms/ProjectsForm';
 
 function Editor() {
   return (
@@ -9,6 +10,7 @@ function Editor() {
       
       <PersonalDetailsForm />
       <SkillsForm />
+      <ProjectsForm />
       
     </section>
   )

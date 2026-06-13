@@ -47,6 +47,8 @@
   font-size: 1rem;
   transition: border-color 0.2s ease;
   font-family: inherit;
+  background-color: #fff;
+  color: #333;
 }
 
 .form-group input:focus,
