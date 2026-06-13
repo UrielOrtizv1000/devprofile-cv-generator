@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useCV } from '../../context/CVContext';
+import { validateField } from '../../utils/validations';
 import './EducationForm.css';
 
 const validLevels = ['Native', 'Fluent', 'Advanced', 'Intermediate', 'Basic'];
@@ -28,8 +29,10 @@ function LanguagesForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (!formData.language.trim()) {
-      setError('Language is required.');
+    const languageError = validateField('language', formData.language, { required: true, maxLength: 50 });
+
+    if (languageError) {
+      setError('Language is required and must be under 50 characters.');
       return;
     }
 

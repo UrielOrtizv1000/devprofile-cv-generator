@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useCV } from '../../context/CVContext';
+import { validateField } from '../../utils/validations';
 import './EducationForm.css';
 
 function EducationForm() {
@@ -29,8 +30,17 @@ function EducationForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (!formData.degree.trim() || !formData.institution.trim()) {
+    const degreeError = validateField('degree', formData.degree, { required: true, maxLength: 100 });
+    const institutionError = validateField('institution', formData.institution, { required: true, maxLength: 100 });
+    const descriptionError = validateField('description', formData.description, { maxLength: 300 });
+
+    if (degreeError || institutionError) {
       setError('Degree and institution are required.');
+      return;
+    }
+
+    if (descriptionError) {
+      setError(descriptionError);
       return;
     }
 

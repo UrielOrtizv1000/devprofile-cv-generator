@@ -104,6 +104,10 @@
   margin-top: 0.5rem;
 }
 
+.input-error {
+  border-color: #d32f2f !important;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .personal-form {

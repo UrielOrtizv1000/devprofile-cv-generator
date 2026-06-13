@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useCV } from '../../context/CVContext';
+import { validateField } from '../../utils/validations';
 import './EducationForm.css';
 
 function CertificationsForm() {
@@ -28,8 +29,17 @@ function CertificationsForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (!formData.name.trim() || !formData.issuer.trim()) {
+    const nameError = validateField('name', formData.name, { required: true, maxLength: 100 });
+    const issuerError = validateField('issuer', formData.issuer, { required: true, maxLength: 100 });
+    const urlError = validateField('url', formData.url, { url: true });
+
+    if (nameError || issuerError) {
       setError('Name and issuer are required.');
+      return;
+    }
+
+    if (urlError) {
+      setError('Please enter a valid URL.');
       return;
     }
 

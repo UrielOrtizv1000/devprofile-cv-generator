@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useCV } from '../../context/CVContext';
+import { validateField, isDuplicateSkill, isValidSkillLevel } from '../../utils/validations';
 import './SkillsForm.css';
 
 const validLevels = ['Basic', 'Intermediate', 'Advanced', 'Expert'];
@@ -30,25 +31,27 @@ function SkillsForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // basic validation
-    if (!formData.name.trim() || !formData.category.trim()) {
+    // Validation
+    const nameError = validateField('name', formData.name, { required: true, maxLength: 50 });
+    const categoryError = validateField('category', formData.category, { required: true, maxLength: 50 });
+    const descriptionError = validateField('description', formData.description, { maxLength: 150 });
+    
+    if (nameError || categoryError) {
       setError('Name and category are required.');
       return;
     }
+    
+    if (descriptionError) {
+      setError(descriptionError);
+      return;
+    }
 
-    if (!validLevels.includes(formData.level)) {
+    if (!isValidSkillLevel(formData.level)) {
       setError('Invalid skill level.');
       return;
     }
 
-    // check duplicates ignoring case
-    const isDuplicate = skills.some(
-      (skill, index) => 
-        skill.name.toLowerCase() === formData.name.trim().toLowerCase() && 
-        index !== editingIndex
-    );
-
-    if (isDuplicate) {
+    if (isDuplicateSkill(skills, formData.name, editingIndex)) {
       setError('Skill already exists.');
       return;
     }

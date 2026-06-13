@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useCV } from '../../context/CVContext';
+import { validateField, isDuplicateProject } from '../../utils/validations';
 import './ProjectsForm.css';
 
 function ProjectsForm() {
@@ -27,38 +28,26 @@ function ProjectsForm() {
     setError('');
   };
 
-  const isValidUrl = (url) => {
-    if (!url) return true; // allow empty if optional
-    try {
-      new URL(url);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // basic validation
-    if (!formData.name.trim() || !formData.description.trim()) {
+    const nameError = validateField('name', formData.name, { required: true, maxLength: 100 });
+    const descriptionError = validateField('description', formData.description, { required: true, maxLength: 500 });
+    const repoError = validateField('repoLink', formData.repoLink, { url: true });
+    const deployError = validateField('deployLink', formData.deployLink, { url: true });
+    const imageError = validateField('image', formData.image, { url: true });
+    
+    if (nameError || descriptionError) {
       setError('Name and description are required.');
       return;
     }
 
-    if (!isValidUrl(formData.repoLink) || !isValidUrl(formData.deployLink) || !isValidUrl(formData.image)) {
+    if (repoError || deployError || imageError) {
       setError('Please enter valid URLs.');
       return;
     }
 
-    // check duplicates ignoring case
-    const isDuplicate = projects.some(
-      (project, index) => 
-        project.name.toLowerCase() === formData.name.trim().toLowerCase() && 
-        index !== editingIndex
-    );
-
-    if (isDuplicate) {
+    if (isDuplicateProject(projects, formData.name, editingIndex)) {
       setError('Project with this name already exists.');
       return;
     }
