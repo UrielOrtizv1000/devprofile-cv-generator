@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useCV } from '../../context/CVContext';
+import { useCV } from '../../context/useCV';
 import { validateField } from '../../utils/validations';
 import './EducationForm.css';
 
@@ -30,17 +30,28 @@ function ExperienceForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    const roleError = validateField('role', formData.role, { required: true, maxLength: 100 });
-    const companyError = validateField('company', formData.company, { required: true, maxLength: 100 });
-    const descriptionError = validateField('description', formData.description, { maxLength: 500 });
+    const validationErrors = [
+      validateField('role', formData.role, {
+        required: true,
+        minLength: 2,
+        maxLength: 100,
+        label: 'The role',
+      }),
+      validateField('company', formData.company, {
+        required: true,
+        minLength: 2,
+        maxLength: 100,
+        label: 'The company',
+      }),
+      validateField('description', formData.description, {
+        minLength: 10,
+        maxLength: 500,
+        label: 'The experience description',
+      }),
+    ].filter(Boolean);
 
-    if (roleError || companyError) {
-      setError('Role and company are required.');
-      return;
-    }
-
-    if (descriptionError) {
-      setError(descriptionError);
+    if (validationErrors.length > 0) {
+      setError(validationErrors.join(' '));
       return;
     }
 

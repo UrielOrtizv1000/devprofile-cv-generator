@@ -7,9 +7,21 @@ export const isValidEmail = (email) => {
 export const isValidUrl = (url) => {
   if (!url) return true;
   try {
-    new URL(url);
-    return true;
-  } catch (_) {
+    const parsedUrl = new URL(url);
+    return ['http:', 'https:'].includes(parsedUrl.protocol);
+  } catch {
+    return false;
+  }
+};
+
+export const isValidImageUrl = (url) => {
+  if (!url) return true;
+  if (!isValidUrl(url)) return false;
+
+  try {
+    const parsedUrl = new URL(url);
+    return /\.(png|jpe?g|gif|webp|avif|svg)$/i.test(parsedUrl.pathname);
+  } catch {
     return false;
   }
 };
@@ -53,20 +65,25 @@ export const isDuplicateProject = (projects, newProjectName, editingIndex = -1) 
 };
 
 export const validateField = (name, value, rules) => {
+  const label = rules.label || name || 'This field';
+
   if (rules.required && !isRequired(value)) {
-    return 'This field is required.';
+    return `Complete ${label.toLowerCase()}.`;
   }
   if (rules.email && !isValidEmail(value)) {
-    return 'Invalid email address.';
+    return `${label} must be a valid email address.`;
   }
   if (rules.url && !isValidUrl(value)) {
-    return 'Invalid URL format.';
+    return `${label} must be a valid URL.`;
+  }
+  if (rules.imageUrl && !isValidImageUrl(value)) {
+    return `${label} must be a valid image URL. Use png, jpg, jpeg, gif, webp, avif, or svg.`;
   }
   if (rules.minLength && !hasMinLength(value, rules.minLength)) {
-    return `Minimum length is ${rules.minLength} characters.`;
+    return `${label} must be at least ${rules.minLength} characters.`;
   }
   if (rules.maxLength && !hasMaxLength(value, rules.maxLength)) {
-    return `Maximum length is ${rules.maxLength} characters.`;
+    return `${label} must be at most ${rules.maxLength} characters.`;
   }
   return '';
 };

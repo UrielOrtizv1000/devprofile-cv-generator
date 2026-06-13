@@ -1,38 +1,57 @@
-import { useState, useEffect } from 'react';
-import { useCV } from '../../context/CVContext';
+import { useState } from 'react';
+import { useCV } from '../../context/useCV';
 import { validateField } from '../../utils/validations';
 import './PersonalDetailsForm.css';
+
+const validationRules = {
+  fullName: { required: true, minLength: 2, maxLength: 50, label: 'The full name' },
+  jobTitle: { required: true, minLength: 2, maxLength: 50, label: 'The profession or area' },
+  location: { maxLength: 50, label: 'The location' },
+  email: { required: true, email: true, label: 'The email address' },
+  phone: { maxLength: 20, label: 'The phone number' },
+  github: { url: true, label: 'The GitHub link' },
+  linkedin: { url: true, label: 'The LinkedIn link' },
+  portfolio: { url: true, label: 'The portfolio' },
+  about: { minLength: 10, maxLength: 500, label: 'The professional profile' },
+};
+
+const normalizePersonalData = (data) => ({
+  fullName: (data.fullName || '').trim(),
+  jobTitle: (data.jobTitle || '').trim(),
+  location: (data.location || '').trim(),
+  email: (data.email || '').trim(),
+  phone: (data.phone || '').trim(),
+  about: (data.about || '').trim(),
+  github: (data.github || '').trim(),
+  linkedin: (data.linkedin || '').trim(),
+  portfolio: (data.portfolio || '').trim(),
+});
+
+const validatePersonalData = (data) => {
+  return Object.entries(validationRules).reduce((fieldErrors, [field, rules]) => {
+    const error = validateField(field, data[field] || '', rules);
+    return { ...fieldErrors, [field]: error };
+  }, {});
+};
 
 function PersonalDetailsForm() {
   const { cvData, updateCVData } = useCV();
   const { personalData, profileImage } = cvData;
 
-  const [localData, setLocalData] = useState(personalData || {});
+  const [localData, setLocalData] = useState(() => personalData || {});
   const [errors, setErrors] = useState({});
-  const [imageError, setImageError] = useState(false);
+  const [formMessage, setFormMessage] = useState('');
+  const [imageUrlInput, setImageUrlInput] = useState(() =>
+    typeof profileImage === 'string' && profileImage.startsWith('http') ? profileImage : ''
+  );
+  const [imageError, setImageError] = useState('');
+  const [imageMessage, setImageMessage] = useState('');
 
-  useEffect(() => {
-    setLocalData(personalData || {});
-  }, [personalData]);
-
-  const validationRules = {
-    fullName: { required: true, maxLength: 50 },
-    jobTitle: { required: true, maxLength: 50 },
-    location: { maxLength: 50 },
-    email: { required: true, email: true },
-    phone: { maxLength: 20 },
-    github: { url: true },
-    linkedin: { url: true },
-    portfolio: { url: true },
-    about: { maxLength: 500 }
-  };
-
-  // handle text input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLocalData((prev) => ({ ...prev, [name]: value }));
-    
-    // Validate on change
+    setFormMessage('');
+
     if (validationRules[name]) {
       const errorMsg = validateField(name, value, validationRules[name]);
       setErrors((prev) => ({ ...prev, [name]: errorMsg }));
@@ -41,81 +60,159 @@ function PersonalDetailsForm() {
 
   const handleBlur = (e) => {
     const { name, value } = e.target;
-    let errorMsg = '';
-    
+
     if (validationRules[name]) {
-      errorMsg = validateField(name, value, validationRules[name]);
+      const errorMsg = validateField(name, value, validationRules[name]);
       setErrors((prev) => ({ ...prev, [name]: errorMsg }));
     }
+  };
 
-    // Only update global context if there's no error
-    if (!errorMsg) {
-      updateCVData('personalData', {
-        ...personalData,
-        [name]: value,
-      });
+  const handleSavePersonalData = (e) => {
+    e.preventDefault();
+
+    const nextErrors = validatePersonalData(localData);
+    setErrors(nextErrors);
+
+    if (Object.values(nextErrors).some(Boolean)) {
+      setFormMessage('Review the highlighted fields before saving.');
+      return;
     }
+
+    const normalizedData = normalizePersonalData(localData);
+    updateCVData('personalData', normalizedData);
+    setLocalData(normalizedData);
+    setFormMessage('Personal details saved successfully.');
   };
 
-  // handle image url input
   const handleImageUrlChange = (e) => {
-    const url = e.target.value;
-    setImageError(false);
-    updateCVData('profileImage', url);
+    setImageUrlInput(e.target.value);
+    setImageError('');
+    setImageMessage('');
   };
 
-  // handle file upload and convert to base64
+  const handleApplyImageUrl = () => {
+    const url = imageUrlInput.trim();
+
+    if (!url) {
+      setImageMessage('');
+      setImageError('Enter an image URL before saving it.');
+      return;
+    }
+
+    const urlError = validateField('profileImage', url, {
+      imageUrl: true,
+      label: 'The profile image',
+    });
+
+    if (urlError) {
+      setImageMessage('');
+      setImageError(urlError);
+      return;
+    }
+
+    setImageError('');
+    setImageMessage('Validating image...');
+
+    const image = new Image();
+    image.onload = () => {
+      updateCVData('profileImage', url);
+      setImageUrlInput(url);
+      setImageError('');
+      setImageMessage('Profile image updated.');
+    };
+    image.onerror = () => {
+      setImageMessage('');
+      setImageError('The image could not be loaded. It was not saved to the CV.');
+    };
+    image.src = url;
+  };
+
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageError(false);
-        updateCVData('profileImage', reader.result);
-      };
-      reader.readAsDataURL(file);
+    setImageMessage('');
+    setImageError('');
+
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setImageError('Select a valid image file.');
+      return;
     }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (typeof reader.result !== 'string') {
+        setImageError('The selected image could not be read.');
+        return;
+      }
+
+      updateCVData('profileImage', reader.result);
+      setImageUrlInput('');
+      setImageError('');
+      setImageMessage('Profile image uploaded successfully.');
+    };
+    reader.onerror = () => {
+      setImageError('The selected image could not be read.');
+    };
+    reader.readAsDataURL(file);
   };
 
-  // fallback if image fails to load
-  const handleImageError = () => {
-    setImageError(true);
+  const handleProfileImageError = () => {
+    updateCVData('profileImage', '');
+    setImageUrlInput('');
+    setImageMessage('');
+    setImageError('The saved image could not be loaded and was removed from the CV.');
+  };
+
+  const handleClearProfileImage = () => {
+    updateCVData('profileImage', '');
+    setImageUrlInput('');
+    setImageError('');
+    setImageMessage('Profile image removed.');
   };
 
   return (
     <div className="form-container">
       <h3>Personal Details</h3>
-      <form className="personal-form" onSubmit={(e) => e.preventDefault()}>
+      <form className="personal-form" onSubmit={handleSavePersonalData}>
         <div className="form-group image-upload-group">
-          <label>Profile Image (URL or Upload)</label>
+          <label htmlFor="profile-image-url">Profile Image (URL or Upload)</label>
           <div className="image-inputs">
             <input
               type="url"
+              id="profile-image-url"
               placeholder="https://example.com/image.jpg"
-              value={profileImage && profileImage.startsWith('http') ? profileImage : ''}
+              value={imageUrlInput}
               onChange={handleImageUrlChange}
             />
+            <button type="button" className="btn-secondary" onClick={handleApplyImageUrl}>
+              Save URL
+            </button>
             <span className="or-text">OR</span>
             <input
               type="file"
               accept="image/*"
               onChange={handleFileUpload}
-              onClick={(e) => { e.target.value = null; }}
+              onClick={(e) => {
+                e.target.value = null;
+              }}
             />
           </div>
-          
-          {profileImage && !imageError && (
+
+          {profileImage && (
             <div className="image-preview">
-              <img 
-                src={profileImage} 
-                alt="Profile preview" 
-                onError={handleImageError} 
-              />
+              <img src={profileImage} alt="Profile preview" onError={handleProfileImageError} />
             </div>
           )}
-          {imageError && (
-            <p className="error-text">Failed to load image. Please check the URL or file.</p>
+
+          {profileImage && (
+            <button type="button" className="btn-secondary btn-danger-light" onClick={handleClearProfileImage}>
+              Remove image
+            </button>
           )}
+
+          {imageError && <p className="error-text">{imageError}</p>}
+          {imageMessage && <p className="status-text">{imageMessage}</p>}
         </div>
 
         <div className="form-group">
@@ -251,6 +348,17 @@ function PersonalDetailsForm() {
             className={errors.about ? 'input-error' : ''}
           />
           {errors.about && <span className="error-text">{errors.about}</span>}
+        </div>
+
+        <div className="form-actions">
+          <button type="submit" className="btn-add">
+            Save personal details
+          </button>
+          {formMessage && (
+            <p className={Object.values(errors).some(Boolean) ? 'error-text' : 'status-text'}>
+              {formMessage}
+            </p>
+          )}
         </div>
       </form>
     </div>

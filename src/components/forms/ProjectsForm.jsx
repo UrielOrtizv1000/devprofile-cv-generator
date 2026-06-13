@@ -1,7 +1,23 @@
 import { useState } from 'react';
-import { useCV } from '../../context/CVContext';
+import { useCV } from '../../context/useCV';
 import { validateField, isDuplicateProject } from '../../utils/validations';
 import './ProjectsForm.css';
+
+const parseTechnologies = (technologies) => {
+  if (Array.isArray(technologies)) {
+    return technologies.map((tech) => String(tech).trim()).filter(Boolean);
+  }
+
+  return technologies.split(',').map((tech) => tech.trim()).filter(Boolean);
+};
+
+const formatTechnologies = (technologies) => {
+  if (Array.isArray(technologies)) {
+    return technologies.join(', ');
+  }
+
+  return technologies || '';
+};
 
 function ProjectsForm() {
   const { cvData, updateCVData } = useCV();
@@ -31,24 +47,45 @@ function ProjectsForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    const nameError = validateField('name', formData.name, { required: true, maxLength: 100 });
-    const descriptionError = validateField('description', formData.description, { required: true, maxLength: 500 });
-    const repoError = validateField('repoLink', formData.repoLink, { url: true });
-    const deployError = validateField('deployLink', formData.deployLink, { url: true });
-    const imageError = validateField('image', formData.image, { url: true });
-    
-    if (nameError || descriptionError) {
-      setError('Name and description are required.');
-      return;
-    }
+    const validationErrors = [
+      validateField('name', formData.name, {
+        required: true,
+        minLength: 2,
+        maxLength: 100,
+        label: 'The project name',
+      }),
+      validateField('description', formData.description, {
+        required: true,
+        minLength: 10,
+        maxLength: 500,
+        label: 'The project description',
+      }),
+      validateField('technologies', formData.technologies, {
+        required: true,
+        minLength: 2,
+        label: 'The project technologies',
+      }),
+      validateField('repoLink', formData.repoLink, {
+        url: true,
+        label: 'The repository link',
+      }),
+      validateField('deployLink', formData.deployLink, {
+        url: true,
+        label: 'The deploy link',
+      }),
+      validateField('image', formData.image, {
+        url: true,
+        label: 'The project image',
+      }),
+    ].filter(Boolean);
 
-    if (repoError || deployError || imageError) {
-      setError('Please enter valid URLs.');
+    if (validationErrors.length > 0) {
+      setError(validationErrors.join(' '));
       return;
     }
 
     if (isDuplicateProject(projects, formData.name, editingIndex)) {
-      setError('Project with this name already exists.');
+      setError('A project with that name already exists.');
       return;
     }
 
@@ -57,7 +94,7 @@ function ProjectsForm() {
       ...formData,
       name: formData.name.trim(),
       description: formData.description.trim(),
-      technologies: formData.technologies.trim(),
+      technologies: parseTechnologies(formData.technologies),
       repoLink: formData.repoLink.trim(),
       deployLink: formData.deployLink.trim(),
       image: formData.image.trim()
@@ -84,7 +121,11 @@ function ProjectsForm() {
   };
 
   const handleEdit = (index) => {
-    setFormData(projects[index]);
+    const project = projects[index];
+    setFormData({
+      ...project,
+      technologies: formatTechnologies(project.technologies),
+    });
     setEditingIndex(index);
     setError('');
   };
@@ -198,7 +239,7 @@ function ProjectsForm() {
             <div className="project-info">
               <h4>{project.name}</h4>
               <p>{project.description}</p>
-              <small className="project-tech">{project.technologies}</small>
+              <small className="project-tech">{formatTechnologies(project.technologies)}</small>
               <div className="project-links">
                 {project.repoLink && <a href={project.repoLink} target="_blank" rel="noreferrer">Repo</a>}
                 {project.deployLink && <a href={project.deployLink} target="_blank" rel="noreferrer">Deploy</a>}

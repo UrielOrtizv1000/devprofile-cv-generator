@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useCV } from '../../context/CVContext';
+import { useCV } from '../../context/useCV';
 import { validateField } from '../../utils/validations';
 import './EducationForm.css';
 
@@ -29,17 +29,27 @@ function CertificationsForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    const nameError = validateField('name', formData.name, { required: true, maxLength: 100 });
-    const issuerError = validateField('issuer', formData.issuer, { required: true, maxLength: 100 });
-    const urlError = validateField('url', formData.url, { url: true });
+    const validationErrors = [
+      validateField('name', formData.name, {
+        required: true,
+        minLength: 2,
+        maxLength: 100,
+        label: 'The certification name',
+      }),
+      validateField('issuer', formData.issuer, {
+        required: true,
+        minLength: 2,
+        maxLength: 100,
+        label: 'The issuing institution',
+      }),
+      validateField('url', formData.url, {
+        url: true,
+        label: 'The certification link',
+      }),
+    ].filter(Boolean);
 
-    if (nameError || issuerError) {
-      setError('Name and issuer are required.');
-      return;
-    }
-
-    if (urlError) {
-      setError('Please enter a valid URL.');
+    if (validationErrors.length > 0) {
+      setError(validationErrors.join(' '));
       return;
     }
 

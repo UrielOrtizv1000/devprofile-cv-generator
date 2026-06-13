@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useCV } from '../../context/CVContext';
+import { useCV } from '../../context/useCV';
 import { validateField } from '../../utils/validations';
 import './EducationForm.css';
 
@@ -29,15 +29,20 @@ function LanguagesForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    const languageError = validateField('language', formData.language, { required: true, maxLength: 50 });
+    const languageError = validateField('language', formData.language, {
+      required: true,
+      minLength: 2,
+      maxLength: 50,
+      label: 'The language',
+    });
 
     if (languageError) {
-      setError('Language is required and must be under 50 characters.');
+      setError(languageError);
       return;
     }
 
     if (!validLevels.includes(formData.level)) {
-      setError('Invalid level.');
+      setError('The language level is invalid.');
       return;
     }
 
@@ -48,7 +53,7 @@ function LanguagesForm() {
     );
 
     if (isDuplicate) {
-      setError('Language already exists.');
+      setError('A language with that name already exists.');
       return;
     }
 

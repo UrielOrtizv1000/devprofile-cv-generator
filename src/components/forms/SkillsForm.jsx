@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useCV } from '../../context/CVContext';
+import { useCV } from '../../context/useCV';
 import { validateField, isDuplicateSkill, isValidSkillLevel } from '../../utils/validations';
 import './SkillsForm.css';
 
@@ -31,28 +31,38 @@ function SkillsForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Validation
-    const nameError = validateField('name', formData.name, { required: true, maxLength: 50 });
-    const categoryError = validateField('category', formData.category, { required: true, maxLength: 50 });
-    const descriptionError = validateField('description', formData.description, { maxLength: 150 });
-    
-    if (nameError || categoryError) {
-      setError('Name and category are required.');
-      return;
-    }
-    
-    if (descriptionError) {
-      setError(descriptionError);
+    const validationErrors = [
+      validateField('name', formData.name, {
+        required: true,
+        minLength: 2,
+        maxLength: 50,
+        label: 'The skill name',
+      }),
+      validateField('category', formData.category, {
+        required: true,
+        minLength: 2,
+        maxLength: 50,
+        label: 'The skill category',
+      }),
+      validateField('description', formData.description, {
+        minLength: 10,
+        maxLength: 150,
+        label: 'The skill description',
+      }),
+    ].filter(Boolean);
+
+    if (validationErrors.length > 0) {
+      setError(validationErrors.join(' '));
       return;
     }
 
     if (!isValidSkillLevel(formData.level)) {
-      setError('Invalid skill level.');
+      setError('The skill level is invalid.');
       return;
     }
 
     if (isDuplicateSkill(skills, formData.name, editingIndex)) {
-      setError('Skill already exists.');
+      setError('A skill with that name already exists.');
       return;
     }
 

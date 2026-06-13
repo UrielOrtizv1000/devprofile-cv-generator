@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useCV } from '../../context/CVContext';
+import { useCV } from '../../context/useCV';
 import { validateField } from '../../utils/validations';
 import './EducationForm.css';
 
@@ -30,17 +30,28 @@ function EducationForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    const degreeError = validateField('degree', formData.degree, { required: true, maxLength: 100 });
-    const institutionError = validateField('institution', formData.institution, { required: true, maxLength: 100 });
-    const descriptionError = validateField('description', formData.description, { maxLength: 300 });
+    const validationErrors = [
+      validateField('degree', formData.degree, {
+        required: true,
+        minLength: 2,
+        maxLength: 100,
+        label: 'The degree',
+      }),
+      validateField('institution', formData.institution, {
+        required: true,
+        minLength: 2,
+        maxLength: 100,
+        label: 'The institution',
+      }),
+      validateField('description', formData.description, {
+        minLength: 10,
+        maxLength: 300,
+        label: 'The education description',
+      }),
+    ].filter(Boolean);
 
-    if (degreeError || institutionError) {
-      setError('Degree and institution are required.');
-      return;
-    }
-
-    if (descriptionError) {
-      setError(descriptionError);
+    if (validationErrors.length > 0) {
+      setError(validationErrors.join(' '));
       return;
     }
 
