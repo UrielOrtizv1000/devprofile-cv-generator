@@ -43,6 +43,6 @@ lerna-debug.log*
 coverage/
 
 # Project-specific internal docs (not for public repo)
-CONTEXTO.md
-Tareas_Azael_DevProfile.md
-Tarea1_Setup.md
+contexto.md
+Tareas.md
+
