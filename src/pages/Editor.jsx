@@ -1,4 +1,5 @@
 import PersonalDetailsForm from '../components/forms/PersonalDetailsForm';
+import SkillsForm from '../components/forms/SkillsForm';
 
 function Editor() {
   return (
@@ -7,6 +8,7 @@ function Editor() {
       <p>Fill in your details below to update your CV.</p>
       
       <PersonalDetailsForm />
+      <SkillsForm />
       
     </section>
   )
