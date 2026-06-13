@@ -17,6 +17,7 @@ const initialCVData = {
   skills: [],
   projects: [],
   education: [],
+  certifications: [],
   experience: [],
   languages: [],
   professionalLinks: [],
