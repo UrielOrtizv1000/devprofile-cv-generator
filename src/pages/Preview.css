@@ -10,26 +10,28 @@
   margin: 0 auto;
   padding: 2.5rem 2rem;
   line-height: 1.6;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  color: #202124;
 }
 
 /* Header Section */
 .cv-header {
   display: flex;
   gap: 2.5rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2.75rem;
   padding-bottom: 2.5rem;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e8e8e8;
   align-items: flex-start;
 }
 
 .profile-image-wrapper {
   flex-shrink: 0;
+  margin-top: 0.1rem;
 }
 
 .profile-image {
-  width: 130px;
-  height: 130px;
+  width: 140px;
+  height: 140px;
   border-radius: 2px;
   object-fit: cover;
   box-shadow: none;
@@ -37,91 +39,99 @@
 
 .personal-info-header {
   flex: 1;
-  padding-top: 0.25rem;
+  padding-top: 0.15rem;
 }
 
 .full-name {
-  margin: 0 0 0.3rem 0;
+  margin: 0 0 0.2rem 0;
   font-size: 2.2rem;
   color: #202124;
   font-weight: 500;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.4px;
+  line-height: 1.2;
 }
 
 .job-title {
   margin: 0 0 1.25rem 0;
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: #5f6368;
   font-weight: 400;
-  letter-spacing: 0px;
+  letter-spacing: 0;
+  line-height: 1.4;
 }
 
 .contact-info {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-top: 0.75rem;
+  gap: 1.75rem;
+  margin-top: 0.5rem;
 }
 
 .contact-item {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #5f6368;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.35rem;
+  line-height: 1.4;
 }
 
 /* Social Links */
 .social-links {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2.75rem;
   padding-bottom: 2.5rem;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e8e8e8;
 }
 
 .social-links h3 {
   margin: 0 0 1rem 0;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   color: #5f6368;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   font-weight: 600;
 }
 
 .links-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.8rem;
 }
 
 .social-link {
   display: inline-block;
-  padding: 0.5rem 0.75rem;
+  padding: 0.45rem 0.75rem;
   background-color: transparent;
   color: #0066cc;
   text-decoration: none;
-  border: 1px solid #d3d3d3;
+  border: 1px solid #dadce0;
   border-radius: 2px;
-  font-size: 0.85rem;
-  transition: all 0.2s ease;
+  font-size: 0.8rem;
+  transition: all 0.15s ease;
+  font-weight: 400;
 }
 
 .social-link:hover {
-  background-color: #f1f1f1;
-  border-color: #999;
+  background-color: #f8f9fa;
+  border-color: #b0b0b0;
 }
 
 /* CV Sections */
 .cv-section {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2.75rem;
   padding-bottom: 0;
 }
 
+.cv-section:last-child {
+  margin-bottom: 0;
+}
+
 .cv-section h3 {
-  margin: 0 0 1.5rem 0;
-  font-size: 0.75rem;
+  margin: 0 0 1.4rem 0;
+  font-size: 0.65rem;
   color: #5f6368;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   border-bottom: none;
   padding-bottom: 0;
   font-weight: 600;
@@ -131,7 +141,7 @@
 .about-text {
   color: #3c4043;
   font-size: 0.9rem;
-  line-height: 1.7;
+  line-height: 1.75;
   margin: 0;
 }
 
@@ -139,23 +149,24 @@
 .skills-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.6rem;
 }
 
 .skill-tag {
   background-color: #f1f1f1;
   color: #3c4043;
-  padding: 0.45rem 0.85rem;
+  padding: 0.4rem 0.8rem;
   border-radius: 16px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   border: none;
+  font-weight: 400;
 }
 
 /* Entries (Experience, Education, etc.) */
 .entries-list {
   display: flex;
   flex-direction: column;
-  gap: 1.75rem;
+  gap: 1.85rem;
 }
 
 .entry {
@@ -169,37 +180,38 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 0.4rem;
-  gap: 1rem;
+  margin-bottom: 0.3rem;
+  gap: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .entry-title {
   margin: 0;
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: #202124;
   font-weight: 500;
   flex: 1;
 }
 
 .entry-date {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: #5f6368;
   font-style: normal;
   white-space: nowrap;
 }
 
 .entry-company {
-  margin: 0 0 0.4rem 0;
-  font-size: 0.9rem;
+  margin: 0 0 0.3rem 0;
+  font-size: 0.85rem;
   color: #5f6368;
   font-weight: 400;
 }
 
 .entry-description {
-  margin: 0.4rem 0 0 0;
+  margin: 0.3rem 0 0 0;
   color: #3c4043;
-  font-size: 0.9rem;
-  line-height: 1.6;
+  font-size: 0.85rem;
+  line-height: 1.7;
 }
 
 .project-link {
@@ -207,7 +219,8 @@
   text-decoration: none;
   font-weight: 400;
   white-space: nowrap;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  transition: all 0.15s ease;
 }
 
 .project-link:hover {
@@ -216,14 +229,16 @@
 
 .project-links {
   display: flex;
-  gap: 1rem;
+  gap: 1.2rem;
+  flex-wrap: wrap;
 }
 
 .cert-link {
   color: #0066cc;
   text-decoration: none;
   font-weight: 400;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  transition: all 0.15s ease;
 }
 
 .cert-link:hover {
@@ -235,23 +250,24 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 0.6rem;
+  margin-top: 0.5rem;
 }
 
 .tech-tag {
   background-color: #f1f1f1;
   color: #5f6368;
-  padding: 0.3rem 0.6rem;
-  border-radius: 3px;
-  font-size: 0.8rem;
+  padding: 0.3rem 0.55rem;
+  border-radius: 2px;
+  font-size: 0.75rem;
   border: none;
+  font-weight: 400;
 }
 
 /* Languages */
 .languages-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.1rem;
 }
 
 .language-item {
@@ -270,13 +286,14 @@
 
 .language-proficiency {
   color: #5f6368;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .preview {
     padding: 1rem;
+    background-color: #ffffff;
   }
 
   .cv-container {
@@ -291,21 +308,28 @@
   }
 
   .profile-image {
-    width: 110px;
-    height: 110px;
+    width: 120px;
+    height: 120px;
   }
 
   .full-name {
     font-size: 1.8rem;
+    margin-bottom: 0.2rem;
   }
 
   .job-title {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
   }
 
   .contact-info {
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.6rem;
+    margin-top: 0.4rem;
+  }
+
+  .contact-item {
+    font-size: 0.75rem;
   }
 
   .entry-header {
@@ -314,6 +338,38 @@
   }
 
   .cv-section h3 {
+    font-size: 0.65rem;
+  }
+
+  .social-link {
+    padding: 0.4rem 0.65rem;
+    font-size: 0.75rem;
+  }
+
+  .skill-tag {
+    padding: 0.35rem 0.7rem;
+    font-size: 0.75rem;
+  }
+
+  .entry-title {
+    font-size: 0.9rem;
+  }
+
+  .entry-company {
+    font-size: 0.8rem;
+  }
+
+  .entry-description {
+    font-size: 0.8rem;
+  }
+
+  .tech-tag {
     font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .project-link,
+  .cert-link {
+    font-size: 0.75rem;
   }
 }
