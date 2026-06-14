@@ -1,9 +1,43 @@
+import { useState } from 'react';
 import { useCV } from '../context/useCV';
-import './Preview.css';
+import { validateCVForExport, exportToPDF } from '../utils/pdfExport';
+import { FaDownload } from 'react-icons/fa';
+import '../styles/Preview.css';
 
 function Preview() {
   const { cvData } = useCV();
+  const [exportErrors, setExportErrors] = useState([]);
+  const [isExporting, setIsExporting] = useState(false);
   const { personalData, profileImage, skills, projects, education, certifications, experience, languages } = cvData;
+
+  // Handle PDF export
+  const handleExportPDF = async () => {
+    setExportErrors([]);
+    
+    // Validate CV data
+    const validation = validateCVForExport(cvData);
+    if (!validation.isValid) {
+      setExportErrors(validation.errors);
+      return;
+    }
+
+    setIsExporting(true);
+    try {
+      const result = await exportToPDF(
+        cvData.personalData?.fullName?.replace(/\s+/g, '_') || 'CV',
+        cvData,
+        cvData.personalData?.fullName || 'CV'
+      );
+      
+      if (!result.success) {
+        setExportErrors([result.message]);
+      }
+    } catch (error) {
+      setExportErrors([error.message || 'An unexpected error occurred during export']);
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   // Helper function to render date range
   const renderDateRange = (startDate, endDate) => {
@@ -21,6 +55,39 @@ function Preview() {
 
   return (
     <div className="preview-container">
+      {/* Export Button and Error Messages */}
+      <div className="export-controls">
+        <button
+          onClick={handleExportPDF}
+          disabled={isExporting}
+          className="export-button"
+          title="Export CV as PDF"
+        >
+          <FaDownload /> {isExporting ? 'Exporting...' : 'Export as PDF'}
+        </button>
+      </div>
+
+      {/* Error Messages */}
+      {exportErrors.length > 0 && (
+        <div className="export-error-banner">
+          <div className="error-content">
+            <h3 className="error-title">Cannot Export CV</h3>
+            <ul className="error-list">
+              {exportErrors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          </div>
+          <button
+            className="error-close-button"
+            onClick={() => setExportErrors([])}
+            aria-label="Close error message"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       <div className="cv-document">
         {/* Header Section */}
         <header className="cv-header">
