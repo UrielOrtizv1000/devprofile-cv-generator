@@ -4,6 +4,14 @@ import { validateCVForExport, exportToPDF } from '../utils/pdfExport';
 import { FaDownload } from 'react-icons/fa';
 import '../styles/Preview.css';
 
+const getTechnologiesText = (technologies) => {
+  if (Array.isArray(technologies)) {
+    return technologies.filter(Boolean).join(', ');
+  }
+
+  return technologies || '';
+};
+
 function Preview() {
   const { cvData } = useCV();
   const [exportErrors, setExportErrors] = useState([]);
@@ -52,6 +60,14 @@ function Preview() {
   const hasCertifications = certifications && certifications.length > 0;
   const hasExperience = experience && experience.length > 0;
   const hasLanguages = languages && languages.length > 0;
+  const pdfContactItems = [
+    personalData.location,
+    personalData.email,
+    personalData.phone,
+    personalData.github ? `GitHub: ${personalData.github}` : '',
+    personalData.linkedin ? `LinkedIn: ${personalData.linkedin}` : '',
+    personalData.portfolio ? `Portfolio: ${personalData.portfolio}` : '',
+  ].filter(Boolean);
 
   return (
     <div className="preview-container">
@@ -274,6 +290,152 @@ function Preview() {
             </section>
           )}
         </main>
+      </div>
+
+      <div className="pdf-export-source" aria-hidden="true">
+        <article className="pdf-document">
+          <header className={`pdf-header ${profileImage ? 'has-image' : ''}`}>
+            <div className="pdf-header-main">
+              <h1 className="pdf-name">{personalData.fullName || 'Your Name'}</h1>
+              <p className="pdf-title">{personalData.jobTitle || 'Career / Professional Area'}</p>
+              {pdfContactItems.length > 0 && (
+                <p className="pdf-contact-line">
+                  {pdfContactItems.map((item, index) => (
+                    <span key={`${item}-${index}`}>
+                      {index > 0 && <span className="pdf-contact-separator"> | </span>}
+                      {item}
+                    </span>
+                  ))}
+                </p>
+              )}
+            </div>
+            {profileImage && (
+              <img src={profileImage} alt={personalData.fullName || 'Profile'} className="pdf-profile-image" />
+            )}
+          </header>
+
+          <main className="pdf-content">
+            {personalData.about && (
+              <section className="pdf-section">
+                <h2 className="pdf-section-title">Professional Profile</h2>
+                <p className="pdf-body-text">{personalData.about}</p>
+              </section>
+            )}
+
+            {hasSkills && (
+              <section className="pdf-section">
+                <h2 className="pdf-section-title">Skills</h2>
+                {skills.map((skill, index) => (
+                  <div key={index} className="pdf-entry">
+                    <p className="pdf-entry-heading">
+                      <strong>{skill.name}</strong>
+                      {(skill.category || skill.level) && (
+                        <span> - {[skill.category, skill.level].filter(Boolean).join(' | ')}</span>
+                      )}
+                    </p>
+                    {skill.description && <p className="pdf-body-text">{skill.description}</p>}
+                  </div>
+                ))}
+              </section>
+            )}
+
+            {hasProjects && (
+              <section className="pdf-section">
+                <h2 className="pdf-section-title">Projects</h2>
+                {projects.map((project, index) => {
+                  const technologiesText = getTechnologiesText(project.technologies);
+
+                  return (
+                    <div key={index} className="pdf-entry">
+                      <h3 className="pdf-entry-title">{project.name}</h3>
+                      {project.description && <p className="pdf-body-text">{project.description}</p>}
+                      {technologiesText && (
+                        <p className="pdf-detail-line">
+                          <strong>Technologies:</strong> {technologiesText}
+                        </p>
+                      )}
+                      {project.repoLink && (
+                        <p className="pdf-detail-line">
+                          <strong>Repository:</strong> <a href={project.repoLink}>{project.repoLink}</a>
+                        </p>
+                      )}
+                      {project.deployLink && (
+                        <p className="pdf-detail-line">
+                          <strong>Deploy:</strong> <a href={project.deployLink}>{project.deployLink}</a>
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
+              </section>
+            )}
+
+            {hasEducation && (
+              <section className="pdf-section">
+                <h2 className="pdf-section-title">Education</h2>
+                {education.map((edu, index) => (
+                  <div key={index} className="pdf-entry">
+                    <div className="pdf-entry-row">
+                      <h3 className="pdf-entry-title">{edu.degree}</h3>
+                      <span className="pdf-entry-date">{renderDateRange(edu.startDate, edu.endDate)}</span>
+                    </div>
+                    <p className="pdf-entry-subtitle">{edu.institution}</p>
+                    {edu.description && <p className="pdf-body-text">{edu.description}</p>}
+                  </div>
+                ))}
+              </section>
+            )}
+
+            {hasCertifications && (
+              <section className="pdf-section">
+                <h2 className="pdf-section-title">Certifications</h2>
+                {certifications.map((cert, index) => (
+                  <div key={index} className="pdf-entry">
+                    <div className="pdf-entry-row">
+                      <h3 className="pdf-entry-title">{cert.name}</h3>
+                      {cert.date && <span className="pdf-entry-date">{cert.date}</span>}
+                    </div>
+                    <p className="pdf-entry-subtitle">{cert.issuer}</p>
+                    {cert.url && (
+                      <p className="pdf-detail-line">
+                        <strong>Credential:</strong> <a href={cert.url}>{cert.url}</a>
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </section>
+            )}
+
+            {hasExperience && (
+              <section className="pdf-section">
+                <h2 className="pdf-section-title">Experience</h2>
+                {experience.map((exp, index) => (
+                  <div key={index} className="pdf-entry">
+                    <div className="pdf-entry-row">
+                      <h3 className="pdf-entry-title">{exp.role}</h3>
+                      <span className="pdf-entry-date">{renderDateRange(exp.startDate, exp.endDate)}</span>
+                    </div>
+                    <p className="pdf-entry-subtitle">{exp.company}</p>
+                    {exp.description && <p className="pdf-body-text">{exp.description}</p>}
+                  </div>
+                ))}
+              </section>
+            )}
+
+            {hasLanguages && (
+              <section className="pdf-section">
+                <h2 className="pdf-section-title">Languages</h2>
+                <div className="pdf-languages-list">
+                  {languages.map((lang, index) => (
+                    <p key={index} className="pdf-language-item">
+                      <strong>{lang.language}</strong>{lang.level && ` - ${lang.level}`}
+                    </p>
+                  ))}
+                </div>
+              </section>
+            )}
+          </main>
+        </article>
       </div>
     </div>
   );

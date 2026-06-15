@@ -528,6 +528,187 @@
   font-weight: 600;
 }
 
+/* Harvard-style PDF source. It stays off-screen so the web preview keeps its current design. */
+.pdf-export-source {
+  position: fixed;
+  left: -10000px;
+  top: 0;
+  width: 7.5in;
+  background: #ffffff;
+  color: #111111;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.pdf-document {
+  box-sizing: border-box;
+  width: 7.5in;
+  min-height: 10in;
+  padding: 0 0 0.12in;
+  background: #ffffff;
+  color: #111111;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 10.5pt;
+  line-height: 1.35;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  orphans: 3;
+  widows: 3;
+}
+
+.pdf-document * {
+  box-sizing: border-box;
+}
+
+.pdf-document a {
+  color: #111111;
+  text-decoration: none;
+}
+
+.pdf-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.25in;
+  padding-bottom: 0.12in;
+  border-bottom: 1px solid #222222;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.pdf-header-main {
+  flex: 1;
+  text-align: center;
+}
+
+.pdf-header.has-image .pdf-header-main {
+  text-align: left;
+}
+
+.pdf-name {
+  margin: 0;
+  color: #111111;
+  font-size: 20pt;
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.pdf-title {
+  margin: 0.06in 0 0;
+  color: #333333;
+  font-size: 11pt;
+  font-weight: 600;
+}
+
+.pdf-contact-line {
+  margin: 0.08in 0 0;
+  color: #333333;
+  font-size: 9pt;
+  line-height: 1.35;
+}
+
+.pdf-contact-separator {
+  color: #666666;
+}
+
+.pdf-profile-image {
+  width: 0.85in;
+  height: 0.85in;
+  object-fit: cover;
+  border: 1px solid #777777;
+  border-radius: 4px;
+  flex: 0 0 auto;
+}
+
+.pdf-content {
+  display: block;
+}
+
+.pdf-section {
+  margin-top: 0.16in;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.pdf-section-title {
+  margin: 0 0 0.1in;
+  padding-bottom: 0.055in;
+  border-bottom: 1px solid #222222;
+  color: #111111;
+  font-size: 10pt;
+  line-height: 1.35;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+.pdf-entry {
+  margin-bottom: 0.1in;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.pdf-entry:last-child {
+  margin-bottom: 0;
+}
+
+.pdf-entry-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.15in;
+}
+
+.pdf-entry-title,
+.pdf-entry-heading {
+  margin: 0;
+  color: #111111;
+  font-size: 10.5pt;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.pdf-entry-date {
+  flex: 0 0 auto;
+  color: #333333;
+  font-size: 9.5pt;
+  white-space: nowrap;
+}
+
+.pdf-entry-subtitle {
+  margin: 0.01in 0 0;
+  color: #222222;
+  font-size: 10pt;
+  font-style: italic;
+}
+
+.pdf-body-text,
+.pdf-detail-line,
+.pdf-language-item {
+  margin: 0.03in 0 0;
+  color: #222222;
+  font-size: 10pt;
+  line-height: 1.35;
+}
+
+.pdf-languages-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 0.25in;
+  row-gap: 0.02in;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.pdf-language-item {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .cv-document {
