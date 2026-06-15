@@ -7,20 +7,20 @@
 
 .dashboard-header {
   margin-bottom: 2rem;
-  border-bottom: 2px solid #e0e0e0;
+  border-bottom: 2px solid var(--color-border);
   padding-bottom: 1.5rem;
 }
 
 .dashboard-header h2 {
   margin: 0;
-  color: #333;
+  color: var(--color-text);
   font-size: 2rem;
   margin-bottom: 0.5rem;
 }
 
 .dashboard-header .subtitle {
   margin: 0;
-  color: #666;
+  color: var(--color-text-light);
   font-size: 1rem;
 }
 

@@ -1,7 +1,7 @@
 import { useCV } from '../context/useCV';
 import SkillsDashboard from '../components/SkillsDashboard';
 import SkillsOverview from '../components/SkillsOverview';
-import './Dashboard.css';
+import '../styles/Dashboard.css';
 
 function Dashboard() {
   const { cvData } = useCV();

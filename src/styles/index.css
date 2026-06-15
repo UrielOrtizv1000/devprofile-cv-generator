@@ -15,9 +15,23 @@
   --color-text-light: #6b7280;
   --color-border: #e5e7eb;
   --color-white: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-dark: #f3f4f6;
   --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
   --radius: 8px;
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode variables */
+[data-theme='dark'] {
+  --color-bg: #0f172a;
+  --color-text: #f1f5f9;
+  --color-text-light: #cbd5e1;
+  --color-border: #334155;
+  --color-white: #1e293b;
+  --color-surface: #1e293b;
+  --color-surface-dark: #0f172a;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 body {
@@ -55,36 +69,6 @@ img {
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
-}
-
-/* Navbar */
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 2rem;
-  background-color: var(--color-white);
-  box-shadow: var(--shadow);
-}
-
-.navbar-brand h1 {
-  font-size: 1.5rem;
-  color: var(--color-primary);
-}
-
-.navbar-links {
-  display: flex;
-  gap: 1.5rem;
-}
-
-.navbar-links a {
-  color: var(--color-text-light);
-  font-weight: 500;
-  transition: color 0.2s;
-}
-
-.navbar-links a:hover {
-  color: var(--color-primary);
 }
 
 /* Home */

@@ -1,15 +1,15 @@
 .skills-form-container {
-  background-color: #ffffff;
+  background-color: var(--color-white);
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow);
   margin-bottom: 2rem;
 }
 
 .skills-form-container h3 {
   margin-top: 0;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--color-text);
   font-size: 1.25rem;
 }
 
@@ -32,19 +32,20 @@
 .skill-form .form-group label {
   margin-bottom: 0.5rem;
   font-weight: 500;
-  color: #555;
+  color: var(--color-text-light);
   font-size: 0.9rem;
 }
 
 .skill-form .form-group input,
 .skill-form .form-group select {
   padding: 0.75rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-border);
   border-radius: 4px;
   font-size: 1rem;
   transition: border-color 0.2s ease;
   font-family: inherit;
-  background-color: #fff;
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
 .skill-form .form-group input:focus,
@@ -78,25 +79,25 @@
 }
 
 .skill-item {
-  border: 1px solid #eee;
+  border: 1px solid var(--color-border);
   padding: 1rem;
   border-radius: 4px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #fafafa;
+  background-color: var(--color-surface-dark);
 }
 
 .skill-info h4 {
   margin: 0 0 0.25rem 0;
-  color: #333;
+  color: var(--color-text);
   font-size: 1.1rem;
 }
 
 .skill-info p {
   margin: 0;
   font-size: 0.9rem;
-  color: #666;
+  color: var(--color-text-light);
 }
 
 .skill-badge {
@@ -108,6 +109,11 @@
   font-size: 0.8rem;
   margin-top: 0.5rem;
   font-weight: 500;
+}
+
+[data-theme='dark'] .skill-badge {
+  background-color: #0c4a6e;
+  color: #38bdf8;
 }
 
 .skill-actions {
@@ -134,6 +140,15 @@
   background-color: #e5e7eb;
 }
 
+[data-theme='dark'] .btn-edit {
+  background-color: #374151;
+  color: #e5e7eb;
+}
+
+[data-theme='dark'] .btn-edit:hover {
+  background-color: #4b5563;
+}
+
 .btn-delete {
   background-color: #fee2e2;
   color: #ef4444;
@@ -143,11 +158,24 @@
   background-color: #fca5a5;
 }
 
+[data-theme='dark'] .btn-delete {
+  background-color: #7f1d1d;
+  color: #fca5a5;
+}
+
+[data-theme='dark'] .btn-delete:hover {
+  background-color: #991b1b;
+}
+
 .error-message {
   color: #d32f2f;
   font-size: 0.9rem;
   grid-column: 1 / -1;
   margin-bottom: 0.5rem;
+}
+
+[data-theme='dark'] .error-message {
+  color: #fca5a5;
 }
 
 @media (max-width: 768px) {

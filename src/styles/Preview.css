@@ -59,6 +59,11 @@
   animation: slideDown 0.3s ease;
 }
 
+[data-theme='dark'] .export-error-banner {
+  background-color: #7f1d1d;
+  border-left-color: #ef4444;
+}
+
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -81,12 +86,20 @@
   margin: 0 0 0.5rem 0;
 }
 
+[data-theme='dark'] .error-title {
+  color: #fca5a5;
+}
+
 .error-list {
   margin: 0;
   padding-left: 1.25rem;
   color: #991b1b;
   font-size: 0.95rem;
   line-height: 1.6;
+}
+
+[data-theme='dark'] .error-list {
+  color: #fecaca;
 }
 
 .error-list li {
@@ -105,8 +118,16 @@
   transition: color 0.2s ease;
 }
 
+[data-theme='dark'] .error-close-button {
+  color: #fca5a5;
+}
+
 .error-close-button:hover {
   color: #991b1b;
+}
+
+[data-theme='dark'] .error-close-button:hover {
+  color: #fecaca;
 }
 
 /* CV Document */
@@ -320,9 +341,17 @@
   transition: all 0.2s ease;
 }
 
+[data-theme='dark'] .skill-card {
+  background-color: #374151;
+}
+
 .skill-card:hover {
   background-color: #e5e7eb;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='dark'] .skill-card:hover {
+  background-color: #4b5563;
 }
 
 .skill-name {
@@ -368,9 +397,17 @@
   transition: all 0.2s ease;
 }
 
+[data-theme='dark'] .project-entry {
+  background-color: #1e293b;
+}
+
 .project-entry:hover {
   background-color: #f3f4f6;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='dark'] .project-entry:hover {
+  background-color: #334155;
 }
 
 .project-image-wrapper {
@@ -417,6 +454,12 @@
   border: 1px solid #bfdbfe;
 }
 
+[data-theme='dark'] .tech-badge {
+  background-color: #0c4a6e;
+  border-color: #0369a1;
+  color: #38bdf8;
+}
+
 /* Project Links */
 .project-links {
   display: flex;
@@ -459,8 +502,16 @@
   transition: all 0.2s ease;
 }
 
+[data-theme='dark'] .language-item {
+  background-color: #374151;
+}
+
 .language-item:hover {
   background-color: #e5e7eb;
+}
+
+[data-theme='dark'] .language-item:hover {
+  background-color: #4b5563;
 }
 
 .language-name {

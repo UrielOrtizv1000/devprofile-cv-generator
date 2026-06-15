@@ -1,15 +1,15 @@
 .form-container {
-  background-color: #ffffff;
+  background-color: var(--color-white);
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow);
   margin-bottom: 2rem;
 }
 
 .form-container h3 {
   margin-top: 0;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--color-text);
   font-size: 1.25rem;
 }
 
@@ -35,20 +35,20 @@
 .form-group label {
   margin-bottom: 0.5rem;
   font-weight: 500;
-  color: #555;
+  color: var(--color-text-light);
   font-size: 0.9rem;
 }
 
 .form-group input,
 .form-group textarea {
   padding: 0.75rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-border);
   border-radius: 4px;
   font-size: 1rem;
   transition: border-color 0.2s ease;
   font-family: inherit;
-  background-color: #fff;
-  color: #333;
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
 .form-group input:focus,
@@ -75,7 +75,7 @@
 
 .or-text {
   font-size: 0.9rem;
-  color: #888;
+  color: var(--color-text-light);
   font-weight: 500;
 }
 
@@ -85,11 +85,11 @@
   height: 120px;
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid #eee;
+  border: 3px solid var(--color-border);
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f9f9f9;
+  background-color: var(--color-surface-dark);
 }
 
 .image-preview img {
@@ -102,15 +102,15 @@
   padding: 0.65rem 0.9rem;
   border: 1px solid #cbd5e1;
   border-radius: 4px;
-  background-color: #f8fafc;
-  color: #334155;
+  background-color: var(--color-surface-dark);
+  color: var(--color-text);
   cursor: pointer;
   font-weight: 500;
   transition: background-color 0.2s, border-color 0.2s;
 }
 
 .btn-secondary:hover {
-  background-color: #e2e8f0;
+  background-color: var(--color-bg);
   border-color: #94a3b8;
 }
 
@@ -121,9 +121,19 @@
   background-color: #fff1f2;
 }
 
+[data-theme='dark'] .btn-danger-light {
+  color: #fca5a5;
+  border-color: #7f1d1d;
+  background-color: #7f1d1d;
+}
+
 .btn-danger-light:hover {
   background-color: #ffe4e6;
   border-color: #fca5a5;
+}
+
+[data-theme='dark'] .btn-danger-light:hover {
+  background-color: #991b1b;
 }
 
 .error-text {
@@ -132,10 +142,18 @@
   margin-top: 0.5rem;
 }
 
+[data-theme='dark'] .error-text {
+  color: #fca5a5;
+}
+
 .status-text {
   color: #166534;
   font-size: 0.85rem;
   margin-top: 0.5rem;
+}
+
+[data-theme='dark'] .status-text {
+  color: #86efac;
 }
 
 .input-error {
