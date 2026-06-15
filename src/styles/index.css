@@ -1,0 +1,147 @@
+/* Reset and base styles */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-primary: #2563eb;
+  --color-primary-dark: #1d4ed8;
+  --color-bg: #f9fafb;
+  --color-text: #111827;
+  --color-text-light: #6b7280;
+  --color-border: #e5e7eb;
+  --color-white: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-dark: #f3f4f6;
+  --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --radius: 8px;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode variables */
+[data-theme='dark'] {
+  --color-bg: #0f172a;
+  --color-text: #f1f5f9;
+  --color-text-light: #cbd5e1;
+  --color-border: #334155;
+  --color-white: #1e293b;
+  --color-surface: #1e293b;
+  --color-surface-dark: #0f172a;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* App layout */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Home */
+.home {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.home h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.home p {
+  color: var(--color-text-light);
+  font-size: 1.1rem;
+}
+
+/* Editor */
+.editor {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.editor h2 {
+  font-size: 1.75rem;
+}
+
+.editor > p {
+  color: var(--color-text-light);
+  margin-bottom: 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .editor {
+    padding: 0;
+  }
+
+  .home {
+    padding: 3rem 1rem;
+  }
+
+  .home h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 1rem 0.75rem;
+  }
+
+  .home {
+    padding: 2.5rem 0.75rem;
+  }
+
+  .home h2 {
+    font-size: 1.3rem;
+  }
+
+  .home p {
+    font-size: 1rem;
+  }
+}
