@@ -101,3 +101,13 @@
     height: 250px;
   }
 }
+
+@media (max-width: 480px) {
+  .chart-container h3 {
+    font-size: 1rem;
+  }
+
+  .chart-wrapper {
+    height: 220px;
+  }
+}

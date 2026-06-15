@@ -34,12 +34,17 @@
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   font-family: var(--font-main);
   background-color: var(--color-bg);
   color: var(--color-text);
   line-height: 1.6;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 a {
@@ -85,4 +90,58 @@ img {
 .home p {
   color: var(--color-text-light);
   font-size: 1.1rem;
+}
+
+/* Editor */
+.editor {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.editor h2 {
+  font-size: 1.75rem;
+}
+
+.editor > p {
+  color: var(--color-text-light);
+  margin-bottom: 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .editor {
+    padding: 0;
+  }
+
+  .home {
+    padding: 3rem 1rem;
+  }
+
+  .home h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 1rem 0.75rem;
+  }
+
+  .home {
+    padding: 2.5rem 0.75rem;
+  }
+
+  .home h2 {
+    font-size: 1.3rem;
+  }
+
+  .home p {
+    font-size: 1rem;
+  }
 }

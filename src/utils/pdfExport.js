@@ -75,6 +75,10 @@ export const exportToPDF = async (fileName, cvData, fullName = 'CV') => {
         scale: 2, // Higher quality rendering
         useCORS: true, // Allow cross-origin images
         logging: false,
+        // Force desktop layout for the PDF regardless of the device/viewport
+        // the export is triggered from, so responsive (tablet/mobile) CSS
+        // rules don't apply to the rendered document.
+        windowWidth: 1200,
         windowHeight: element.scrollHeight
       },
       jsPDF: {
