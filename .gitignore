@@ -8,6 +8,11 @@ dist/
 build/
 dist-ssr/
 
+# Temporary local files
+tmp/
+temp/
+logs/
+
 # Environment variables
 .env
 .env.local

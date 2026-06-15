@@ -1,29 +1,21 @@
 # DevProfile: Dynamic CV Generator
 
-## 1. Project overview
+## Project Overview
 
-DevProfile is a web application built with React and Vite for creating a professional CV dynamically. It lets users capture, edit, delete, preview, and export professional information.
+DevProfile is a React and Vite web application for building a professional CV dynamically. Users can enter career information, preview the result, review skills analytics, switch between light and dark mode, persist data locally, and export the CV as a PDF.
 
-The app includes a CV editor, live preview, skills dashboard, dark mode, LocalStorage persistence, responsive layout, and PDF export.
+## Main Features
 
-## 2. Main features
-
-- Personal information editor.
-- Profile image support.
-- Skills management.
-- Projects management.
-- Education management.
-- Certifications management.
-- Experience management.
-- Languages management.
-- Dynamic CV preview.
-- PDF export.
-- Skills dashboard/chart.
-- Dark mode.
+- Personal information editor with profile image support.
+- Dynamic sections for skills, projects, education, certifications, experience, and languages.
+- Live CV preview.
+- Professional PDF export from the preview page.
+- Skills dashboard with charts.
+- Light and dark mode.
 - LocalStorage persistence.
-- Responsive design.
+- Responsive layout for desktop and mobile use.
 
-## 3. Technologies used
+## Technologies Used
 
 - React
 - Vite
@@ -37,82 +29,68 @@ The app includes a CV editor, live preview, skills dashboard, dark mode, LocalSt
 - CSS
 - ESLint
 
-## 4. Project structure
+## Project Structure
 
 ```text
 src/
+  assets/
   components/
-  pages/
   context/
   hooks/
-  utils/
+  pages/
   styles/
-docs/
+  utils/
+.github/
+  workflows/
 ```
 
+- `src/assets/`: static project assets.
 - `src/components/`: reusable UI components and form components.
-- `src/pages/`: main route views for home, editor, preview, dashboard, and about.
-- `src/context/`: global providers and context objects for CV data and theme state.
+- `src/context/`: global providers and shared context logic for CV data and theme state.
 - `src/hooks/`: custom hooks used by the application.
-- `src/utils/`: reusable helper functions for validation, analytics, and PDF export.
+- `src/pages/`: main route views for home, editor, preview, dashboard, and about.
 - `src/styles/`: global and page-specific CSS files.
-- `docs/`: additional project documentation, correction reports, and technical notes.
+- `src/utils/`: helper functions for validation, analytics, and PDF export.
+- `.github/workflows/`: GitHub Actions workflow for GitHub Pages deployment.
 
-## 5. Requirements
+## Requirements
 
 - Node.js 18 or higher recommended.
 - npm.
 
-No specific Node.js version is declared in `package.json`.
-
-## 6. Local installation
-
-1. Clone or open the project folder.
-2. Install dependencies:
+## Local Installation
 
 ```bash
 npm install
 ```
 
-## 7. Run in development mode
+## Run Locally
 
 ```bash
 npm run dev
 ```
 
-Vite will show a local URL, normally:
+Vite will print the local development URL in the terminal, usually:
 
 ```text
 http://localhost:5173
 ```
 
-The port can vary if another process is already using the default Vite port.
-
-## 8. Build for production
+## Build for Production
 
 ```bash
 npm run build
 ```
 
-This command generates the production files in the `dist/` folder.
+This command generates the production build in `dist/`.
 
-## 9. Preview production build
-
-```bash
-npm run preview
-```
-
-This command serves the production build locally after running `npm run build`.
-
-## 10. Linting
+## Lint
 
 ```bash
 npm run lint
 ```
 
-This command checks the project for style and code-quality issues using ESLint.
-
-## 11. Available routes
+## Available Routes
 
 ```text
 /           Home
@@ -122,37 +100,48 @@ This command checks the project for style and code-quality issues using ESLint.
 /about      Project information
 ```
 
-## 12. How the app works
-
-1. The user opens the CV editor.
-2. The user captures or updates professional information.
-3. Data is stored in global React state through context.
-4. Data persists in the browser through `localStorage`.
-5. The preview view renders the CV with the current information.
-6. The dashboard displays skills analytics and charts.
-7. The user can export the CV to PDF from the preview page.
-
-## 13. Documentation
-
-Additional documentation is available in:
+For GitHub Pages, the app uses hash-based routing, so deployed URLs look like:
 
 ```text
-docs/
+/#/editor
+/#/preview
+/#/dashboard
+/#/about
 ```
 
-Relevant documentation folders:
+## How It Works
+
+1. The user enters CV information in the editor.
+2. React context stores the current CV state.
+3. The browser saves the data in `localStorage`.
+4. The preview page renders the CV using the saved data.
+5. The dashboard displays skills analytics from the same CV state.
+6. The preview page exports the professional CV layout to PDF.
+
+## Deployment on GitHub Pages
+
+The project is prepared for GitHub Pages deployment from the `main` branch using GitHub Actions.
+
+The workflow in `.github/workflows/deploy.yml` installs dependencies, runs the production build, uploads the generated `dist/` folder, and deploys it through GitHub Pages.
+
+The Vite base path is configured for this repository:
+
+```js
+base: '/devprofile-cv-generator/'
+```
+
+After merging to `main`, enable GitHub Pages in the repository settings and select GitHub Actions as the source.
+
+Expected deployment URL:
 
 ```text
-docs/codigo/
-docs/correcciones/
+https://urielortizv1000.github.io/devprofile-cv-generator/
 ```
 
-- `docs/codigo/`: technical documentation and implementation notes.
-- `docs/correcciones/`: correction reports, diagnostics, and follow-up reports.
+## Notes
 
-## 14. Notes
-
-- Data is stored locally in the browser using `localStorage`.
-- This version does not require a backend to run locally.
-- To clear saved CV data, delete the site's local storage from the browser.
-- The real deploy URL is still pending and should be added to the documentation when available.
+- The app runs entirely in the browser and does not require a backend.
+- CV data is saved locally using `localStorage`.
+- To clear saved CV data, remove this site's local storage from the browser.
+- PDF export is available from the preview page.
+- `node_modules/` and `dist/` are intentionally ignored by Git because dependencies and production builds are generated during installation and deployment.
