@@ -1,5 +1,7 @@
 # DevProfile: Dynamic CV Generator
 
+> **Status: archived / no longer maintained.** This repository is no longer actively developed. It is kept public for reference and portfolio purposes. No further updates, security fixes, dependency upgrades or new features are planned. Use at your own risk.
+
 ## Project Overview
 
 DevProfile is a React and Vite web application for building a professional CV dynamically. Users can enter career information, preview the result, review skills analytics, switch between light and dark mode, persist data locally, and export the CV as a PDF.
